@@ -47,3 +47,5 @@ To run the test suite with documentation:
 To run the test suite with the progress bar:
 
 `` rspec spec --format progress ``
+
+##### Note: The tests will take a while to run while testing the AI as it is playing out every possible game to make sure the AI is unbeatable
