@@ -1,0 +1,2 @@
+describe Human do
+end
