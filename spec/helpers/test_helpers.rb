@@ -16,13 +16,13 @@ end
 def playout_every_move(gamestate, computer)
   if gamestate.computers_turn?
     computers_move = computer.decide_move
-    computer.move(computers_move, gamestate)
+    gamestate.move(computers_move)
     return true if gamestate.game_over?
   end
 
   possible_moves(gamestate.board).map do |possible_move|
     new_gamestate, new_computer = create_game(gamestate.board.dup, "o")
-    new_computer.move(possible_move, new_gamestate)
+    new_gamestate.move(possible_move)
 
     if new_gamestate.win?("o")
       return false

@@ -1,10 +1,23 @@
 class Gamestate
-  attr_accessor :board, :turn, :movelist
+  attr_reader :board, :turn
 
   def initialize(board = nil, turn="x")
     @board = board || Array.new(9, "-")
     @turn = turn
     @movelist = []
+  end
+
+  def move(move)
+    @board[move] = @turn
+    @turn = other_turn
+    @movelist << move
+    self
+  end
+
+  def unmove
+    @board[movelist.pop] = "-"
+    @turn = other_turn
+    self
   end
 
   def other_turn
@@ -39,7 +52,7 @@ class Gamestate
   end
 
   def first_move?
-    @movelist.empty?
+    movelist.empty?
   end
 
   def game_over?
@@ -47,15 +60,29 @@ class Gamestate
   end
 
   def players_turn?
-    @turn == "o"
+    turn == "o"
   end
 
   def computers_turn?
-    @turn == "x"
+    turn == "x"
+  end
+
+  def set_players_turn
+    @turn = "o"
+  end
+
+  def set_computers_turn
+    @turn = "x"
   end
 
   def space_available?(index)
     @board[index] == "-"
+  end
+
+  private
+
+  def movelist
+    @movelist
   end
 end
 

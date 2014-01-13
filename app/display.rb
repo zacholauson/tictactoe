@@ -4,14 +4,6 @@ class Display
     @output = output
   end
 
-  def clear_screen
-    @output.puts "\e[H\e[2J"
-  end
-
-  def new_line
-    @output.puts
-  end
-
   def board
     board_with_indices = fill_empty_spaces_with_indices
     formatted_board = format(board_with_indices)
@@ -45,17 +37,25 @@ class Display
 
   private
 
+  def clear_screen
+    @output.puts "\e[H\e[2J"
+  end
+
+  def new_line
+    @output.puts
+  end
+
   def ask_human_for_name(human)
     @output.print "What is your name? "
     name = gets.chomp.capitalize
-    name ? (@output.puts "Thanks #{name}" ; human.name = name) : ask_for_name
+    name ? (@output.puts "Thanks #{name}" ; human.set_name(name)) : ask_for_name
   end
 
   def ask_for_who_should_go_first
     @output.print "Who should go first ( computer | human )? "
     who_goes_first = gets.chomp
     new_line
-    @gamestate.turn = who_goes_first.include?("h") ? "o" : "x"
+    who_goes_first.include?("h") ? @gamestate.set_players_turn : @gamestate.set_computers_turn
   end
 
   def fill_empty_spaces_with_indices

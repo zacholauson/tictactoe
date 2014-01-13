@@ -57,7 +57,7 @@ describe Ai do
       # Need to have moves in the movelist so that it will return
       # the right move and no 0 for the first move
       # gamestate.stub(:movelist) {[0, 1, 3, 6, 7, 8]}
-      gamestate.movelist = [0, 1, 3, 6, 7, 8]
+      gamestate.stub(:movelist) {[0, 1, 3, 6, 7, 8]}
     end
 
     let(:computer) { Ai.new(gamestate) }

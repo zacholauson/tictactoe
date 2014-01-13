@@ -1,6 +1,4 @@
 class Ai
-  include Moveable
-
   def initialize(gamestate)
     @gamestate = gamestate
   end
@@ -12,11 +10,11 @@ class Ai
   end
 
   def minimax_for(index)
-    move(index, @gamestate)
+    @gamestate.move(index)
 
     leaf_score = get_leaf_score
 
-    (unmove(@gamestate) ; return leaf_score) if leaf_score
+    (@gamestate.unmove ; return leaf_score) if leaf_score
 
     scores = []
 
@@ -24,11 +22,12 @@ class Ai
       scores << minimax_for(move_index)
     end
 
-    if @gamestate.turn == "x"
-      unmove(@gamestate)
+    # if @gamestate.turn == "x"
+    if @gamestate.computers_turn?
+      @gamestate.unmove
       return scores.max
     else
-      unmove(@gamestate)
+      @gamestate.unmove
       return scores.min
     end
   end

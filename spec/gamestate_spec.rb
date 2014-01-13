@@ -11,7 +11,35 @@ describe Gamestate do
     end
 
     it "should create a empty movelist to hold moves" do
-      expect(gamestate.movelist).to eq([])
+      expect(gamestate.send(:movelist)).to eq([])
+    end
+  end
+
+  describe "#move" do
+    let(:gamestate) { create_gamestate_from_string("xo-o--x-x", turn: "o") }
+
+    before do
+      gamestate.stub(:movelist) {[0, 1, 8, 3, 6]}
+    end
+
+    it "should put an 'o' in the 4th index" do
+      expect(gamestate.move(4).board).to eq(["x", "o", "-",
+                                             "o", "o", "-",
+                                             "x", "-", "x"])
+    end
+  end
+
+  describe "#unmove" do
+    let(:gamestate) { create_gamestate_from_string("xo-o--x-x", turn: "o") }
+
+    before do
+      gamestate.stub(:movelist) {[0, 1, 8, 3, 6, 4]}
+    end
+
+    it "should reset the last move on the board to '-'" do
+      expect(gamestate.unmove.board).to eq(["x", "o", "-",
+                                            "o", "-", "-",
+                                            "x", "-", "x"])
     end
   end
 
@@ -122,7 +150,7 @@ describe Gamestate do
       let(:gamestate) { create_gamestate_from_string("x-o-x-oxo") }
 
       before do
-        gamestate.movelist = [0,2,4,6,7,8]
+        gamestate.stub(:movelist) { [0, 2, 4, 6, 7, 8] }
       end
 
       it "should return false if previous moves have taken place" do
@@ -151,6 +179,24 @@ describe Gamestate do
     let(:gamestate) { Gamestate.new }
 
     it "should return true if its the computers turn" do
+      expect(gamestate.computers_turn?).to be_true
+    end
+  end
+
+  describe "#set_players_turn" do
+    let(:gamestate) { Gamestate.new }
+
+    it "should set the gamestates turn to 'x' // the players turn" do
+      gamestate.set_players_turn
+      expect(gamestate.players_turn?).to be_true
+    end
+  end
+
+  describe "#set_computers_turn" do
+    let(:gamestate) { Gamestate.new(nil, "o") }
+
+    it "should set the gamestates turn to 'o' // the computers turn" do
+      gamestate.set_computers_turn
       expect(gamestate.computers_turn?).to be_true
     end
   end

@@ -108,7 +108,7 @@ describe Display do
     let(:display) { Display.new(gamestate, output) }
 
     it "should clear the screen" do
-      display.clear_screen
+      display.send(:clear_screen)
       output.seek(0)
       expect(output.read).to eq("\e[H\e[2J\n")
     end
@@ -120,7 +120,7 @@ describe Display do
     let(:display) { Display.new(gamestate, output) }
 
     it "should put a new line" do
-      display.new_line
+      display.send(:new_line)
       output.seek(0)
       expect(output.read).to eq("\n")
     end
@@ -132,7 +132,7 @@ describe Display do
     let(:display) { Display.new(gamestate, output) }
 
     before do
-      gamestate.movelist = [0, 3, 1, 2, 6, 7]
+      gamestate.stub(:movelist) {[0, 3, 1, 2, 6, 7]}
     end
 
     it "should display the board of the current gamestate" do

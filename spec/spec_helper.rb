@@ -6,7 +6,6 @@ RSpec.configure do |config|
   config.before(:all) { $stdout = File.new('/dev/null', 'w') }
 end
 
-require_relative "../app/moveable"
 require_relative "../app/colorize"
 require_relative "../app/gamestate"
 require_relative "../app/display"

@@ -1,4 +1,3 @@
-require_relative "app/moveable"
 require_relative "app/colorize"
 require_relative "app/gamestate"
 require_relative "app/display"
